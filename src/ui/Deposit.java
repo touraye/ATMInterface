@@ -15,31 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Deposit {
-    public Scene deposit(){
 
-        BorderPane depositLayout = new BorderPane();
-
-        HBox depositMenu = new HBox(30);
-        depositMenu.setId("depositMenu");
-        depositMenu.setAlignment(Pos.CENTER);
-
-        Button homeBtn = new Button("Home");
-        homeBtn.setId("homeBtn");
-        homeBtn.setOnAction(event -> {
-            Dashboard home = new Dashboard();
-            depositLayout.setCenter(home.transactionHistoryForm());
-        });
-        Button quitAppBtn = new Button("QUIT");
-        quitAppBtn.setId("quit");
-
-        depositMenu.getChildren().addAll(homeBtn, quitAppBtn);
-        depositLayout.setTop(depositMenu);
-        //Append Child
-        Scene app = new Scene(depositLayout, 700,500);
-
-
-        return app;
-    }
     public VBox depositLayout(){
 
         VBox deposit = new VBox(30);
@@ -93,7 +69,7 @@ public class Deposit {
                    double updateBal = get + conv;
                     saveMoney.deposit(updateBal, currAcc);
                    System.out.println("The current account number is " + currAcc);
-                   msg.setText("Account Updated.");
+                   msg.setText("Account Updated. Your New Balance Is D" +updateBal);
                } else {
                    msg.setText("Please Check Your Account Number And Deposit Cannot Be Less than D100");
                }
