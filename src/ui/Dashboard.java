@@ -46,7 +46,8 @@ public class Dashboard {
         Button withdrawal = new Button("Withdrawal");
         withdrawal.setId("withdrawalBtn");
         withdrawal.setOnAction(event -> {
-            appLayout.setCenter(this.verifyAccount());
+            Withdrawal withdraw = new Withdrawal();
+            appLayout.setCenter(withdraw.withdrawalLayout());
         });
         Button transactionHistory = new Button("Transaction History");
         transactionHistory.setId("transBtn");
