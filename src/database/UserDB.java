@@ -18,6 +18,7 @@ public class UserDB {
         }
     }
 
+    //Handle User Login
     public boolean Login(String uuid, String pin){
         try{
             //select count(*) from users where user_id = '123' and user_pin = 'code12';
@@ -33,6 +34,72 @@ public class UserDB {
             return true;
         } catch (SQLException ex){
             return false;
+        }
+    }
+
+    //Query
+    public ResultSet selectQuery(String argQuery){
+        ResultSet query = null;
+        try {
+            query = this.sts.executeQuery(argQuery);
+        } catch (SQLException ex) {
+
+        }
+        return query;
+    }
+
+    //Handle Transfer List
+    public ResultSet transactionList(String account){
+        try{
+            String query = "SELECT * FROM transactions WHERE account = '"+account+"'";
+            ResultSet result = this.sts.executeQuery(query);
+            return result;
+        } catch (SQLException ex){
+            System.out.println(ex.getMessage());
+            return null;
+        }
+    }
+
+    //Deposit Into Account
+    public void deposit(double amount, String account){
+        //update account set current_balance = 5000 where acc_num = 'acc001';
+        try{
+            String query = "UPDATE account SET current_balance = '"+amount+"' WHERE acc_num = '"+account+"'";
+            this.sts.execute(query);
+        } catch (SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    //Verify Account
+    public boolean verifyAccount(String account_num){
+        try {
+            String query = "SELECT COUNT(*) FROM account WHERE acc_num = '"+account_num+"'";
+            ResultSet result = this.sts.executeQuery(query);
+            int flag = -1;
+            while (result.next()){
+                flag = result.getInt(1);
+            }
+            if(flag == 0){
+                return false;
+            }
+            return true;
+
+        } catch (SQLException ex){
+            System.out.println(ex.getMessage());
+            return false;
+        }
+    }
+
+
+    //Get the current balance from the current account pass in
+    public ResultSet getCurBalance(String acc_num){
+        try {
+            String fetch = "SELECT current_balance FROM account WHERE acc_num = '"+acc_num+"'";
+            ResultSet getCurBal = this.sts.executeQuery(fetch);
+            return getCurBal;
+        } catch (SQLException ex){
+            return  null;
         }
     }
 
