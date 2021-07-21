@@ -23,6 +23,7 @@ public class Login extends Application {
         primaryStage.setScene(app.dashboard());
 
         primaryStage.setTitle("ATM INTERFACE");
+
         primaryStage.show();
     }
 
