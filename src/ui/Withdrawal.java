@@ -18,30 +18,29 @@ public class Withdrawal {
         VBox withdrawal = new VBox(30);
         withdrawal.setAlignment(Pos.CENTER);
 
-        Label displayMsg = new Label("Verify Your Account And Enter The Your Transaction Amount.");
+        Label displayMsg = new Label("Verify Your Account And Enter The Your Transaction Amount To Proceed With Your Withdrawal.");
         displayMsg.setId("displayMsg");
 
         HBox verifyAccount = new HBox(20);
         verifyAccount.setAlignment(Pos.CENTER);
-        verifyAccount.setId("vAcc");
+        verifyAccount.setId("inputHBox");
 
 
         Label acc_num = new Label("Enter Account Number");
-        acc_num.setId("acc_num");
+        acc_num.setId("label");
         TextField accNumFld = new TextField();
-        accNumFld.setId("accNumFld");
-        Button accNumBtn = new Button("SUBMIT");
+        accNumFld.setId("field");
 
         HBox withdrawLayout = new HBox(20);
         withdrawLayout.setAlignment(Pos.CENTER);
-        withdrawLayout.setId("depositLayout");
-        Label withdrawalLbl = new Label("Enter Amount");
-        withdrawalLbl.setId("depositLbl");
+        withdrawLayout.setId("inputHBox");
+        Label withdrawalLbl = new Label("Enter Amount               ");
+        withdrawalLbl.setId("label");
         TextField withdrawalFld = new TextField();
-        withdrawalFld.setId("depositFld");
+        withdrawalFld.setId("field");
         Label msg = new Label();
         Button amountBTn = new Button("SUBMIT");
-        amountBTn.setId("amountBtn");
+        amountBTn.setId("actionBtn");
         amountBTn.setOnAction(event -> {
             //Todo Event Handler
             UserDB saveMoney = new UserDB();//Trying Saving Money
@@ -60,11 +59,7 @@ public class Withdrawal {
                         ResultSet currentBal = saveMoney.getCurBalance(currAcc);//Get the current balance from the account
 
                         double get = 0;
-//                        boolean flag = minimumWithdrawal(get, conv);
-//                        if (flag){
-//                            msg.setText("Your Left Over Cannot Be Less Than " +lastBal);
-//                        }
-//                        else {
+
                             while (currentBal.next()){
                                 get = currentBal.getDouble("current_balance");
                                 System.out.println("The Current Balance For This Account is D" +get);
@@ -76,6 +71,11 @@ public class Withdrawal {
                                 saveMoney.deposit(updateBal, currAcc);
                                 System.out.println("The current account number is " + currAcc);
                                 msg.setText("Account Updated. Your New Balance Is D" +updateBal);
+
+                                //Write to transactions
+                                UserDB transactions = new UserDB();
+                                String type = "withdrawal";
+                                transactions.transactions(type, conv, currAcc);
 
                             } else {
                                 msg.setText("Your Left Over Cannot Be Less Than " +lastBal+ " Your Current Balance is D" +get);
