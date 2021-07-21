@@ -48,12 +48,36 @@ public class UserDB {
         return query;
     }
 
-    //Handle Transfer List
+    //Handle Transaction List
     public ResultSet transactionList(String account){
         try{
             String query = "SELECT * FROM transactions WHERE account = '"+account+"'";
             ResultSet result = this.sts.executeQuery(query);
             return result;
+        } catch (SQLException ex){
+            System.out.println(ex.getMessage());
+            return null;
+        }
+    }
+
+    //Handle Transfer for Sender
+    public ResultSet transferSender(String account){
+        try {
+            String query = "SELECT * FROM transfer_trans WHERE sender = '"+account+"'";
+            ResultSet fetch = this.sts.executeQuery(query);
+            return  fetch;
+        } catch (SQLException ex){
+            System.out.println(ex.getMessage());
+            return null;
+        }
+    }
+
+    //Handle Transfer for Recipient
+    public ResultSet transferRecipient(String account){
+        try {
+            String query = "SELECT * FROM transfer_trans WHERE recipient = '"+account+"'";
+            ResultSet fetch = this.sts.executeQuery(query);
+            return  fetch;
         } catch (SQLException ex){
             System.out.println(ex.getMessage());
             return null;
@@ -102,6 +126,41 @@ public class UserDB {
             return  null;
         }
     }
+
+
+    //Transactions for Deposit, Withdrawal and Transfer
+    public void transactions(String type, double amount, String account){
+        try {
+            String query = "INSERT INTO transactions(trans_type, trans_amount, account) values('"+type+"', '"+amount+"', '"+account+"')";
+            this.sts.execute(query);
+        } catch (SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    //Transfers Transaction
+    public void transferTrans(String sender, String recipient, double amount){
+        try {
+                String query = "INSERT INTO transfer_trans(sender, recipient, amount) values('"+sender+"', '"+recipient+"', '"+amount+"')";
+                this.sts.execute(query);
+        } catch (SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    //Enquiry Account
+    public ResultSet enquiry(String account){
+        //select current_balance  from account where acc_num = 'acc001';
+        try {
+            String query = "SELECT current_balance FROM account WHERE acc_num = "+account;
+            ResultSet select = this.sts.executeQuery(query);
+            return  select;
+        } catch (SQLException ex){
+            System.out.println(ex.getMessage());
+            return null;
+        }
+    }
+
 
 //    public  static void main(String args[]){
 //        UserDB db = new UserDB();
