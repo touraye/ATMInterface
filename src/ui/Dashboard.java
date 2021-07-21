@@ -1,11 +1,9 @@
 package ui;
+import javafx.scene.control.*;
 import main.Login;// get thw ArrayList from the Login Class
 import database.UserDB;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -18,47 +16,76 @@ public class Dashboard {
     public Scene dashboard(){
         BorderPane appLayout = new BorderPane();
 
-        HBox appMenu = new HBox(30);
+        HBox appMenu = new HBox(50);
         appMenu.setId("app");
 
         Button deposit = new Button("Deposit");
-        deposit.setId("depositBtn");
+        deposit.setId("menuBtn");
         deposit.setOnAction(e->{
             //Todo Event Handler
 
         Deposit saveMoney = new Deposit();
         appLayout.setCenter(saveMoney.depositLayout());
 
-//            appLayout.setCenter(this.verifyAccount());
         });
         Button transfer = new Button("Transfer");
-        transfer.setId("transferBtn");
+        transfer.setId("menuBtn");
         transfer.setOnAction(event -> {
             //Todo Event Handler
-            appLayout.setCenter(this.verifyAccount());
+            Transfer transfer1 = new Transfer();
+            appLayout.setCenter(transfer1.transferLayout());
         });
-        Button transaction = new Button("Transactions");
-        transaction.setId("transactionBtn");
+
+        //Instantiate
+        Transaction handler = new Transaction();
+
+        SplitMenuButton transactionMenu = new SplitMenuButton();
+        transactionMenu.setText("Transactions");
+        transactionMenu.setId("menuSplBtn");
+
+        MenuItem transfersS = new MenuItem("Sender Trans..");
+        transfersS.setId("menuSplBtn");
+        transfersS.setOnAction(event -> {
+            appLayout.setCenter(handler.transactionTransLayoutS());
+        });
+
+        MenuItem transfersR = new MenuItem("Recipient Transs");
+        transfersR.setId("menuSplBtn");
+        transfersR.setOnAction(event -> {
+            appLayout.setCenter(handler.transactionTransLayoutR());
+        });
+
+        MenuItem transaction = new MenuItem("Transactions");
+        transaction.setId("menuSplBtn");
         transaction.setOnAction(event -> {
-            Transaction trans = new Transaction();
-            appLayout.setCenter(this.transactionHistoryForm());
+            appLayout.setCenter(handler.transactionLayout());
         });
+
+        MenuItem balEnquiry = new MenuItem("Balance Enquiry");
+        balEnquiry.setId("menuEnBtn");
+        balEnquiry.setOnAction(event -> {
+            appLayout.setCenter(handler.enquiryBalance());
+        });
+
+        transactionMenu.getItems().addAll(transfersS, transfersR, transaction, balEnquiry);
+
         Button withdrawal = new Button("Withdrawal");
-        withdrawal.setId("withdrawalBtn");
+        withdrawal.setId("menuBtn");
         withdrawal.setOnAction(event -> {
             Withdrawal withdraw = new Withdrawal();
             appLayout.setCenter(withdraw.withdrawalLayout());
         });
         Button transactionHistory = new Button("Transaction History");
-        transactionHistory.setId("transBtn");
+        transactionHistory.setId("menuBtn");
         transactionHistory.setOnAction(event -> {
             //Todo Event Handler
             appLayout.setCenter(this.verifyAccount());
         });
-        Button quitApp = new Button("Quit");
-        quitApp.setId("quitApp");
+        Button quitApp = new Button("Quite");
+        quitApp.setId("quiteApp");
         quitApp.setOnAction(event -> {
             //Todo Handle Click Event
+            quiteApp();
         });
 
         VBox appMain = new VBox(30);
@@ -67,6 +94,7 @@ public class Dashboard {
 
         HBox firstChild = new HBox(20);
         firstChild.setAlignment(Pos.CENTER);
+        firstChild.setId("input-HBox");
 
 
         Label welMsg = new Label("Welcome To Your First Bank ATM Service");
@@ -76,16 +104,16 @@ public class Dashboard {
 
         HBox secondChild = new HBox(20);
         secondChild.setAlignment(Pos.CENTER);
-
+        secondChild.setId("input-HBox");
         secondChild.getChildren().addAll(deposit, transfer);
 
         //Append Child
-        appMenu.getChildren().addAll(deposit, withdrawal, transfer, transactionHistory, quitApp);
+        appMenu.getChildren().addAll(deposit, withdrawal, transfer, transactionMenu, quitApp);
         appMain.getChildren().add(firstChild);
         appLayout.setTop(appMenu);
         appLayout.setCenter(appMain);
-        Scene appScene = new Scene(appLayout, 700,600);
-
+        Scene appScene = new Scene(appLayout, 1000,600);
+        appScene.getStylesheets().add("styles.css");
         return appScene;
     }
 
@@ -107,7 +135,7 @@ public class Dashboard {
         transactionTransferHistory.setOnAction(event -> {
             //Todo transaction History Handler
             Transaction transaction = new Transaction();
-            transaction.transferList();
+//            transaction.transferList();
 
         });
         Button cancelBtn = new Button("Cancel");
@@ -141,16 +169,18 @@ public class Dashboard {
         verifyAccountLayout.setId("verifyAcc");
 
         Label infoMsg = new Label("Please Verify That You Have A Account.");
-
+        infoMsg.setId("showMsg");
         HBox verifyAccount = new HBox(20);
         verifyAccount.setAlignment(Pos.CENTER);
         verifyAccount.setId("vAcc");
 
         Label msg = new Label();
+        msg.setId("alertMsg");
         Label acc_num = new Label("Enter Account Number");
-        acc_num.setId("acc_num");
+        acc_num.setId("label");
         TextField accNumFld = new TextField();
-        accNumFld.setId("accNumFld");
+        accNumFld.setId("field");
+
         Button accNumBtn = new Button("SUBMIT");
         accNumBtn.setOnAction(event -> {
             String currAcc = accNumFld.getText();
@@ -173,12 +203,12 @@ public class Dashboard {
                 msg.setText("Account Number Is Required");
             }
         });
-        accNumBtn.setId("accNumBtn");
+        accNumBtn.setId("actionBtn");
 
 
         //Append Child
-        verifyAccount.getChildren().addAll(acc_num,accNumFld);
-        verifyAccountLayout.getChildren().addAll(infoMsg ,verifyAccount, accNumBtn, msg);
+        verifyAccount.getChildren().addAll(acc_num, accNumFld);
+        verifyAccountLayout.getChildren().addAll(infoMsg, verifyAccount, accNumBtn, msg);
 
         return verifyAccountLayout;
     }
@@ -187,5 +217,10 @@ public class Dashboard {
     public boolean accessAcc(String acc_num){
         UserDB acc = new UserDB();
         return acc.verifyAccount(acc_num);
+    }
+
+    //Handle Quite
+    public void quiteApp(){
+        System.exit(0);
     }
 }
