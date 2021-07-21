@@ -1,0 +1,83 @@
+
+.root {
+    -fx-background-color: lightcyan;
+}
+
+#app {
+    -fx-background-color: lightsteelblue;
+    -fx-alignment: center;
+    -fx-padding: 10;
+}
+
+#menuBtn {
+    -fx-font-size: 13pt;
+    -fx-font-weight: bold;
+    -fx-background-color: forestgreen;
+    -fx-text-fill: white;
+    -fx-margin: 10 0;
+}
+
+#menuSplBtn {
+    -fx-font-size: 13pt;
+    -fx-font-weight: bold;
+    -fx-background-color: forestgreen;
+    -fx-text-fill: white;
+    -fx-margin: 5 0;
+}
+
+#menuEnBtn {
+    -fx-font-size: 13pt;
+    -fx-font-weight: bold;
+    -fx-background-color: lightsteelblue;
+    -fx-text-fill: white;
+    -fx-margin: 5 0;
+}
+
+#quiteApp {
+    -fx-font-size: 14pt;
+    -fx-font-weight: bold;
+    -fx-background-color: #8b0000;
+    -fx-text-fill: white;
+}
+
+#appMain {
+    -fx-alignment: center;
+}
+
+#welMsg {
+    -fx-font-size: 15pt;
+    -fx-margin-bottom: 5;
+}
+
+#showMsg {
+    -fx-font-size: 12pt;
+}
+
+#displayMsg {
+    -fx-font-size: 15pt;
+    -fx-margin: 10;
+}
+
+#actionBtn {
+    -fx-font-size: 12pt;
+    -fx-font-weight: bold;
+    -fx-background-color: forestgreen;
+    -fx-text-fill: white;
+    -fx-padding: 5 13;
+
+}
+
+#inputHBox {
+    -fx-alignment: center;
+}
+
+#label {
+    -fx-font-size: 12pt;
+    -fx-alignment: center;
+    -fx-padding: 0 8 0 0;
+}
+
+#field {
+
+}
+
