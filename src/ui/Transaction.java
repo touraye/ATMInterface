@@ -6,6 +6,8 @@ import javafx.scene.control.*;
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 
 import java.sql.ResultSet;
@@ -18,7 +20,7 @@ public class Transaction {
         VBox transactions = new VBox(30);
         transactions.setAlignment(Pos.CENTER);
 
-        Label displayMsg = new Label("Please Verify That You're An Account Holder To Proceed With Viewing Your Transactions History");
+        Label displayMsg = new Label("Please Verify Your Account To View Your Transactions History");
         displayMsg.setId("displayMsg");
 
         HBox transactionsAccountLayout = new HBox(20);
@@ -51,6 +53,8 @@ public class Transaction {
                             String list = query.getString(1)+ " " +query.getString(2)+ " " +query.getString(3)+ " " +query.getString(4);
                             msg.setText(list);
                             System.out.println(list);
+                            double convertList = Double.parseDouble(list);
+//                            Alert.display("Transaction",  convertList);
                         }
                     } catch (SQLException ex){
                         System.out.println(ex.getMessage());
@@ -80,7 +84,7 @@ public class Transaction {
         VBox transactions = new VBox(30);
         transactions.setAlignment(Pos.CENTER);
 
-        Label displayMsg = new Label("Please Verify That You're An Account Holder To Proceed With Viewing Your Received Transactions History");
+        Label displayMsg = new Label("Please VerifyYourAccount To View Your Received Transfers Transactions History");
         displayMsg.setId("displayMsg");
 
         HBox transactionsAccountLayout = new HBox(20);
@@ -114,8 +118,10 @@ public class Transaction {
                         System.out.println("Date \t\t\t Recipient  Sender  Amount");
                         while (query.next()){
                             System.out.println(""+query.getString("transfer_date")+ " " +query.getString("sender")+ " " +query.getString("recipient")+ " " +query.getString("amount"));
-                            String message = ""+query.getString(1)+""+query.getString(2)+""+query.getString(3)+""+query.getString(4);
+                            String message = "Date: "+query.getString(1)+" Sender: "+query.getString(2)+" Recipient "+query.getString(3)+" Amount D"+query.getString(4);
                             msg.setText(message);
+                            double convertMessage = Double.parseDouble(message);
+//                            Alert.display("Transaction Successful", convertMessage);
                         }
 
                     } catch (SQLException ex){
@@ -145,7 +151,7 @@ public class Transaction {
         VBox transactions = new VBox(30);
         transactions.setAlignment(Pos.CENTER);
 
-        Label displayMsg = new Label("Please Verify That You're An Account Holder To Proceed With Viewing Your Transfers Transactions History");
+        Label displayMsg = new Label("Please VerifyYourAccount To View Your Transfers Transactions History");
         displayMsg.setId("displayMsg");
 
         HBox transactionsAccountLayout = new HBox(20);
@@ -177,19 +183,21 @@ public class Transaction {
                 UserDB verifyAcc = new UserDB();
                 boolean validate = verifyAcc.verifyAccount(acc);
                 if (validate){
-                    msg.setText("Account Validated");
                     UserDB senderHandler = new UserDB();
                     try {
                         ResultSet get = senderHandler.transferSender(acc);
                         System.out.println("Date \t Sender  Recipient  Amount");
+                        String result = null;
                         while (get.next()){
-                            String result = ""+get.getString("transfer_date")+ " " +get.getString("sender")+ " " +get.getString("recipient")+ " " +get.getString("amount");
-
+                             result = "Date: "+get.getString("transfer_date")+ " Sender: " +get.getString("sender")+ " Recipient " +get.getString("recipient")+ " Amount D" +get.getString("amount");
+                            
                             System.out.println(""+get.getString("transfer_date")+ " " +get.getString("sender")+ " " +get.getString("recipient")+ " " +get.getString("amount"));
                             msg.setText(result);
                             dialog.setContentText(result);
 //                            dialog.getDialogPane().getButtonTypes().add(transBtn);
                         }
+                        double convertResult = Double.parseDouble(result);
+//                        Alert.display("Transaction Successful", convertResult);
                     } catch (SQLException ex){
                         System.out.println(ex.getMessage());
                     }
@@ -239,24 +247,28 @@ public class Transaction {
                 UserDB verifyAcc = new UserDB();
                 boolean validate = verifyAcc.verifyAccount(accNum);
                 if (validate){
-                    msg.setText("Valid Account Number");
                     try {
                         UserDB enquiry = new UserDB();
                         ResultSet query = enquiry.getCurBalance(accNum);
                         while (query.next()){
                             double detail = query.getDouble("current_balance");
-                            msg.setText("Your Current Balance is D" +(detail));
-                            System.out.println("Your Current Balance is D" +detail);
+//                            msg.setText("Your Current Balance is D" +(detail));
+                            double amount = detail;
+                            //String title,String info, double updatedBal, String New, double Msg
+//                            display("Balance Enquiry", "Your current balance is D", detail);
+                            AlertTransactions.display("Balance Enquiry", "Your current balance is D", detail);
                         }
                     } catch (SQLException ex){
                         System.out.println(ex.getMessage());
                     }
                 } else {
-                    msg.setText("Incorrect Account Number! Try Provide A Correct Account Number.");
+//                    msg.setText("Incorrect Account Number! Try Provide A Correct Account Number.");
+                    AlertError.display("Error", "Incorrect Account Number! Try Provide A Correct Account Number.");
                 }
 
             } else {
-                msg.setText("Please Provide An Account...");
+//                msg.setText("Please Provide An Account...");
+                AlertError.display("Error", "Please Provide An Account");
             }
 
         });
@@ -267,6 +279,41 @@ public class Transaction {
         transactions.getChildren().addAll(displayMsg, enquiryLayout, enquiryBtn, msg);
 
         return transactions;
+
+    }
+
+    public static void display(String title,String info, double updatedBal){
+        Stage window = new Stage();
+
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle(title);
+        window.setMinWidth(650);
+        window.setMinHeight(250);
+
+
+        Label infoMsg = new Label();
+        infoMsg.setText(info);
+        infoMsg.setId("alertMsg");
+
+        Label accountUpdate = new Label();
+        accountUpdate.setText(String.valueOf(updatedBal));
+        accountUpdate.setId("alertMsg");
+
+        javafx.scene.control.Button closeBtn = new javafx.scene.control.Button("Close");
+        closeBtn.setOnAction(event -> window.close());
+
+        VBox layout = new VBox(30);
+        layout.setAlignment(Pos.CENTER);
+
+        HBox showMsg = new HBox(0);
+        showMsg.setAlignment(Pos.CENTER);
+        showMsg.getChildren().addAll(infoMsg, accountUpdate);
+
+        layout.getChildren().addAll(showMsg, closeBtn);
+
+        Scene scene = new Scene(layout);
+        window.setScene(scene);
+        window.showAndWait();
 
     }
 

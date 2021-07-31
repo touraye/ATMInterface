@@ -62,8 +62,9 @@ public class Transfer {
             if(sender.length() != 0 && recipient.length() != 0 && amount.length() !=0){
                 //check for account match
                 if(sender.equals(recipient)){
-                    confirm.setText("Transfer Unsuccessful");
-                    msg.setText("Transfers Is Only Between Two Different Amounts. Please Try Transferring To A Different Account.");
+//                    confirm.setText("Transfer Unsuccessful");
+//                    msg.setText("Transfers Is Only Between Two Different Amounts. Please Try Transferring To A Different Account.");
+                    AlertError.display("Error", "Transfers Is Only Between Two Different Amounts. Please Try Transferring To A Different Account.");
                 } else {
 
                 try {
@@ -78,27 +79,29 @@ public class Transfer {
                         double getSender = 0;
                         while (currentBal.next()){
                             getSender = currentBal.getDouble("current_balance");//get sender's current balance
-                            System.out.println("The Current Balance For This Amount Is D" +getSender);
+//                            System.out.println("The Current Balance For This Amount Is D" +getSender);
                         }
 
                         ResultSet currentBal2 = saveMoney.getCurBalance(recipient);
                         while (currentBal2.next()){
                             getRecipient = currentBal2.getDouble("current_balance");//get recipient's current balance
-                            System.out.println("the current balance for this account is D" +getRecipient);
+//                            System.out.println("the current balance for this account is D" +getRecipient);
                         }
                         Withdrawal validate = new Withdrawal();//
                         boolean flag = validate.minimumWithdrawal(getSender, conv);
                         if (flag){
                             //Add the amount passed in to the query balance GET
                             double updateSenderBal = getSender - conv;
-                            saveMoney.deposit(updateSenderBal, sender);
-                            confirm.setText("Transfer SuccessFull");
-                            senderMsg.setText("Sender's Account Updated. Your New Balance Is D" +updateSenderBal);
+                            saveMoney.deposit(updateSenderBal, sender);//rewrite to sender account
+//                            confirm.setText("Transfer SuccessFull");
+//                            senderMsg.setText("Sender: your is account deducted width. Your New Balance Is D" +updateSenderBal);
 
                             //Add the amount passed in to the query balance GET
                             double updateRecipientBal = getRecipient + conv;
                             saveMoney.deposit(updateRecipientBal, recipient);
-                            msg.setText("Recipient's Account Updated. New Balance Is D" +updateRecipientBal);
+//                            msg.setText("Recipient's Account Updated. New Balance Is D" +updateRecipientBal);
+                                //String title,String SenderInfo,double sentBal, String sendMsg, double SenderBal, String recipientInfo, double updateBal, String accText
+                            AlertTrans.display("Transfer","Sender: your account was deducted with D",conv," Your new balance is D", updateSenderBal, " D",conv, " has been added to Recipient's account");
 
                             //Write to Transfer Transactions
                             UserDB transfers = new UserDB();
@@ -109,7 +112,8 @@ public class Transfer {
                             transfers.transactions(type, conv, recipient);
 
                         } else {
-                            msg.setText("Your Left Over Cannot Be Less Than " +lastBal+ " Your Current Balance is D" +getSender);
+                            confirm.setText("Your Left Over Cannot Be Less Than " +lastBal+ " Your Current Balance is D" +getSender);
+
                         }
 
                     } else {
@@ -118,7 +122,7 @@ public class Transfer {
 
                 } catch (NumberFormatException | SQLException ex){
                     System.out.println(ex.getMessage());
-                    msg.setText("Wrong Input. Please Try Inputting A Correct Account And None Zero Double Value...");
+                    msg.setText("Wrong Input. Please Try Inputting A Correct Account And None Zero Value...");
                 }
                 }
             } else {

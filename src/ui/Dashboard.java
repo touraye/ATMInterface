@@ -61,13 +61,13 @@ public class Dashboard {
             appLayout.setCenter(handler.transactionLayout());
         });
 
-        MenuItem balEnquiry = new MenuItem("Balance Enquiry");
-        balEnquiry.setId("menuEnBtn");
+        Button balEnquiry = new Button("Balance Enquiry");
+        balEnquiry.setId("menuBtn");
         balEnquiry.setOnAction(event -> {
             appLayout.setCenter(handler.enquiryBalance());
         });
 
-        transactionMenu.getItems().addAll(transfersS, transfersR, transaction, balEnquiry);
+//        transactionMenu.getItems().addAll(transfersS, transfersR, transaction, balEnquiry);
 
         Button withdrawal = new Button("Withdrawal");
         withdrawal.setId("menuBtn");
@@ -108,7 +108,7 @@ public class Dashboard {
         secondChild.getChildren().addAll(deposit, transfer);
 
         //Append Child
-        appMenu.getChildren().addAll(deposit, withdrawal, transfer, transactionMenu, quitApp);
+        appMenu.getChildren().addAll(deposit, withdrawal,transfer, balEnquiry, quitApp);
         appMain.getChildren().add(firstChild);
         appLayout.setTop(appMenu);
         appLayout.setCenter(appMain);

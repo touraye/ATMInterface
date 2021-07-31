@@ -62,15 +62,18 @@ public class Withdrawal {
 
                             while (currentBal.next()){
                                 get = currentBal.getDouble("current_balance");
-                                System.out.println("The Current Balance For This Account is D" +get);
+//                                System.out.println("The Current Balance For This Account is D" +get);
                             }
                             boolean flag = minimumWithdrawal(get, conv);
                             if (flag){
                                 //Add the amount passed in to the query balance GET
                                 double updateBal = get - conv;
                                 saveMoney.deposit(updateBal, currAcc);
-                                System.out.println("The current account number is " + currAcc);
-                                msg.setText("Account Updated. Your New Balance Is D" +updateBal);
+//                                System.out.println("The current account number is " + currAcc);
+//                                msg.setText("Account Updated. Your New Balance Is D" +updateBal);
+//                                Alert.display("Withdrawal", "Account Updated. Your New Balance Is D", updateBal);
+                                Alert.display("Withdrawal", "D", conv, " been successfully withdrawn from your account, your current balance is D",updateBal);
+                                    //D300 has been successfully withdrawn from your account, your current balance is D12300
 
                                 //Write to transactions
                                 UserDB transactions = new UserDB();
@@ -78,20 +81,24 @@ public class Withdrawal {
                                 transactions.transactions(type, conv, currAcc);
 
                             } else {
-                                msg.setText("Your Left Over Cannot Be Less Than " +lastBal+ " Your Current Balance is D" +get);
+//                                msg.setText("Your Left Over Cannot Be Less Than " +lastBal+ " Your Current Balance is D" +get);
+                                AlertMin.display("Error", "our Left Over Cannot Be Less Than D", lastBal, "Your Current Balance is D", get);
                             }
 
 //                        }
 
                     } else {
-                        msg.setText("Please Check Your Account Number And The Min Withdrawal Is D200.00, Max Is D2,000.00");
+//                        msg.setText("Please Check Your Account Number And The Min Withdrawal Is D200.00, Max Is D2,000.00");
+                        AlertError.display("Error", "Please Check Your Account Number And The Min Withdrawal Is D200.00, Max Is D2,000.00");
                     }
                 } catch (NumberFormatException | SQLException ex){
                     System.out.println(ex.getMessage());
-                    msg.setText("Wrong Input. Please Try Inputting A Correct Account And None Zero Double Value...");
+//                    msg.setText("Wrong Input. Please Try Inputting A Correct Account And None Zero Double Value...");
+                    AlertError.display("Wrong Input", "Please Try Inputting A Correct Account And None Zero Double Value");
                 }
             } else {
-                msg.setText("All Fields Required");
+//                msg.setText("All Fields Required");
+                AlertError.display("Error", "All Fields Required");
             }
         });
 
@@ -109,11 +116,11 @@ public class Withdrawal {
 
     //Helper Method for withdrawal           700    -         200
     public boolean minimumWithdrawal(double curBal, double withdrawalAmount){
-        //get your current balance and minus the new withdrawal : check whether the balance is more than 300
+        //get your current balance and minus the new withdrawal : check whether the balance is more than or equals to 300
                     //500
             double newBal = curBal - withdrawalAmount;
             if (newBal >= lastBal){
-                System.out.println("Your left over money is D" +newBal);
+//                System.out.println("Your left over money is D" +newBal);
                 return true;
             }
             return false;

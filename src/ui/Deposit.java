@@ -63,27 +63,32 @@ public class Deposit {
                    double get = 0;
                     while (currentBal.next()){
                         get = currentBal.getDouble("current_balance");
-                        System.out.println("The Current Balance For This Account is D" +get);
+//                        System.out.println("The Current Balance For This Account is D" +get);
                     }
                     //Add the amount passed in to the query balance GET
                    double updateBal = get + conv;
                     saveMoney.deposit(updateBal, currAcc);
-                   System.out.println("The current account number is " + currAcc);
-                   msg.setText("Account Updated. Your New Balance Is D" +updateBal);
+//                   System.out.println("The current account number is " + currAcc);
+//                   msg.setText("Account Updated. Your New Balance Is D" +updateBal);
+                   Alert.display("Deposit", "You have successfully updated with D", conv, " to your account and your current balance is D",updateBal);
+
 
                 //Write into transactions
                    UserDB transactions = new UserDB();
                    String type = "deposit";
                    transactions.transactions(type, conv,currAcc);
                } else {
-                   msg.setText("Please Check Your Account Number And Deposit Cannot Be Less than D200");
+//                   msg.setText("Please Check Your Account Number And Deposit Cannot Be Less than D200");
+                   AlertError.display("Error","Please Check Your Account Number And Deposit Cannot Be Less than D200");
                }
            } catch (NumberFormatException | SQLException ex){
                System.out.println(ex.getMessage());
-               msg.setText("Wrong Input. Please Try Inputting A Correct Account And None Zero Double Value...");
+//               msg.setText("Wrong Input. Please Try Inputting A Correct Account And None Zero Double Value...");
+               AlertError.display("Wrong Input", "Please Try Inputting A Correct Account And None Zero Double Value");
            }
             } else {
-                msg.setText("All Fields Required");
+//                msg.setText("All Fields Required");
+                AlertError.display("Error", "All Fields Required");
             }
         });
 

@@ -77,7 +77,8 @@
     -fx-padding: 0 8 0 0;
 }
 
-#field {
-
+#alertMsg {
+    -fx-font-size: 12px;
+    -fx-text-fill: red;
 }
 
