@@ -24,7 +24,7 @@ Below is some MySQL code snippet  that will help you set up your MySQL Database 
 
 ### Create Database
 
-With this one you can give your Database a desirable name, but will make sense to name your Database the same with your project which **ATM** 
+With this one you can give your Database any desirable name, or you can name your Database the same with your project which **ATM** 
 
 Your clone of these project needs some editing for it to be functional. First you need change the name of the Database in the **UserDB** class if your have it different and your password which is a most
 
