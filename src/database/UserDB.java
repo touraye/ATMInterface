@@ -9,7 +9,7 @@ public class UserDB {
 
     public UserDB(){
         try {
-            cn = DriverManager.getConnection("jdbc:mysql://127.0.01/ATM", "root", "touraye7");
+            cn = DriverManager.getConnection("jdbc:mysql://127.0.01/DatabaseName", "root", "Password");
             this.sts = cn.createStatement();
             System.out.println("DB connected");
         } catch (SQLException ex){
