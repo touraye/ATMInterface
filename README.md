@@ -1,6 +1,6 @@
 # ATM Interface
-Build an ATM Interface which first starts a a console application prompted the user to enter user id and pin. On entering the details successfully, the ATM functionalities are unlocked.
-Using Javafx, The project allows to perform the follow operations:
+Build an ATM Interface which first starts a console application prompted the user to enter user id and pin. On entering the details successfully, the ATM functionalities are unlocked.
+Using Javafx, The project allows users to perform the follow operations:
 
 * Transaction History
 * Withdraw
@@ -18,7 +18,7 @@ You need have MySQL running on your system
 
 ## Setting Up The Schema:
 
-Below is some MySQL code snippet  that will help you set up your MySQL Database in other to work the App.
+Below are some MySQL code snippet  that will help you set up your MySQL Database for the App to work.
 
 
 
